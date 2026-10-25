@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">MedaAssist AI Medical Assistant</title>
+  <desc id="desc">A friendly white robot with a cyan smile and stethoscope over a blue and teal medical cross.</desc>
+  <defs>
+    <linearGradient id="cross" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08d9e5"/>
+      <stop offset=".48" stop-color="#0869f4"/>
+      <stop offset="1" stop-color="#09e0c9"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".55" stop-color="#d9f5ff"/>
+      <stop offset="1" stop-color="#8bdcff"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#06133a"/>
+      <stop offset="1" stop-color="#02071b"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000a24" flood-opacity=".65"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="48" fill="#020714"/>
+  <!-- Medical cross -->
+  <g filter="url(#shadow)">
+    <rect x="188" y="54" width="136" height="404" rx="38" fill="url(#cross)"/>
+    <rect x="54" y="188" width="404" height="174" rx="40" fill="url(#cross)"/>
+  </g>
+  <!-- Antenna -->
+  <path d="M256 105v35" stroke="url(#rim)" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="256" cy="99" r="16" fill="url(#rim)"/>
+  <!-- Side ear pieces -->
+  <rect x="164" y="203" width="36" height="76" rx="18" fill="url(#rim)"/>
+  <rect x="312" y="203" width="36" height="76" rx="18" fill="url(#rim)"/>
+  <!-- Robot head shell -->
+  <path d="M190 166 C207 148 228 142 256 142 C284 142 305 148 322 166 C338 183 342 203 342 228 C342 269 322 293 291 298 C269 302 243 302 221 298 C190 293 170 269 170 228 C170 203 174 183 190 166Z" fill="url(#rim)"/>
+  <path d="M202 177 C216 164 235 160 256 160 C277 160 296 164 310 177 C324 190 328 207 328 228 C328 260 312 277 286 282 C267 286 245 286 226 282 C200 277 184 260 184 228 C184 207 188 190 202 177Z" fill="url(#screen)"/>
+  <!-- Happy eyes -->
+  <path d="M216 232 C222 213 239 213 246 232" fill="none" stroke="#75f4ff" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+  <path d="M266 232 C273 213 290 213 296 232" fill="none" stroke="#75f4ff" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+  <!-- Stethoscope tube -->
+  <path d="M190 292 C166 300 158 322 170 346 C184 374 221 395 250 395 C282 395 308 376 323 348" fill="none" stroke="url(#rim)" stroke-width="12" stroke-linecap="round"/>
+  <!-- ECG line -->
+  <path d="M180 337 H218 L229 349 L245 311 L261 365 L273 337 H309" fill="none" stroke="#50efff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  <!-- Chestpiece -->
+  <circle cx="331" cy="328" r="29" fill="url(#rim)"/>
+  <circle cx="331" cy="328" r="19" fill="#0758c9"/>
+  <circle cx="331" cy="328" r="12" fill="url(#rim)"/>
+</svg>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f5f2e9">
+    <title>MedAssist AI — Medical report intelligence</title>
+    <meta name="description" content="Turn complex laboratory reports into structured findings and clearer questions for your clinician, in English, Urdu, and Roman Urdu.">
+    <link rel="icon" type="image/svg+xml" href="/static/medassist-icon.svg">
+    <link rel="apple-touch-icon" href="/static/medassist-icon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/editorial.css">
+</head>
+<body class="theme-light">
+    <header class="navbar">
+        <div class="nav-container">
+            <a class="brand" href="/" aria-label="MedAssist AI home">
+                <img class="brand-icon" src="/static/medassist-icon.svg" alt="" aria-hidden="true">
+                <span class="brand-text">
+                    <span class="brand-title">MedAssist<span class="accent">.</span></span>
+                    <span class="brand-subtitle">Clinical report intelligence</span>
+                </span>
+            </a>
+
+            <div class="nav-actions">
+                <label class="language-selector-wrapper" for="languageSelect">
+                    <i class="fa-solid fa-language lang-icon" aria-hidden="true"></i>
+                    <span class="sr-only">Choose response language</span>
+                    <select id="languageSelect" class="lang-select" title="Choose Response Language">
+                        <option value="en" selected>English</option>
+                        <option value="roman_ur">Roman Urdu</option>
+                        <option value="ur">اردو</option>
+                    </select>
+                </label>
+                <div class="api-status-badge" id="apiStatusBadge" role="status" aria-live="polite">
+                    <span class="status-dot checking"></span>
+                    <span class="status-text">Checking AI status...</span>
+                </div>
+                <button class="theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle Theme" title="Toggle dark or light mode">
+                    <i class="fa-solid fa-moon" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="hero-section" id="heroSection" aria-labelledby="heroTitle">
+            <div class="hero-copy">
+                <p class="eyebrow">Medical report intelligence</p>
+                <h1 class="hero-title" id="heroTitle">
+                    <span class="hero-title-line hero-title-first">Your results,</span>
+                    <span class="hero-title-line hero-title-second">understood.</span>
+                </h1>
+                <p class="hero-subtitle">Turn complex laboratory reports into structured findings and clearer questions for your clinician.</p>
+                <div class="hero-meta">
+                    <span><i class="fa-solid fa-language" aria-hidden="true"></i> English · اردو · Roman Urdu</span>
+                    <span class="hero-meta-rule" aria-hidden="true"></span>
+                    <span><i class="fa-solid fa-shield-heart" aria-hidden="true"></i> Private by design</span>
+                </div>
+                <a class="hero-scroll-cue" href="#reportImport">
+                    <span>SCROLL TO EXPLORE</span>
+                    <span class="scroll-cue-line" aria-hidden="true"></span>
+                    <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                </a>
+            </div>
+        </section>
+
+        <section class="upload-section" id="reportImport" aria-label="Import a report or try a sample">
+            <div class="sample-bar">
+                <div class="sample-intro">
+                    <p class="eyebrow">START WITH A CASE</p>
+                    <p class="sample-bar-label">Explore a sample report</p>
+                </div>
+                <div class="sample-buttons">
+                    <button class="sample-btn" type="button" data-sample="cbc">
+                        <span class="sample-number">01</span>
+                        <span class="sample-copy"><strong>Anemia panel</strong><small>Complete blood count</small></span>
+                        <i class="fa-solid fa-arrow-up-right-from-square sample-arrow" aria-hidden="true"></i>
+                    </button>
+                    <button class="sample-btn" type="button" data-sample="lipid">
+                        <span class="sample-number">02</span>
+                        <span class="sample-copy"><strong>Lipid &amp; metabolic</strong><small>Cardiovascular markers</small></span>
+                        <i class="fa-solid fa-arrow-up-right-from-square sample-arrow" aria-hidden="true"></i>
+                    </button>
+                    <button class="sample-btn" type="button" data-sample="liver_thyroid">
+                        <span class="sample-number">03</span>
+                        <span class="sample-copy"><strong>Thyroid &amp; liver</strong><small>Endocrine and hepatic</small></span>
+                        <i class="fa-solid fa-arrow-up-right-from-square sample-arrow" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="upload-card" id="uploadCard">
+                <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.webp,.bmp,.pdf" hidden>
+                <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Choose a medical report or drop a file here">
+                    <div class="drop-document" aria-hidden="true">
+                        <svg viewBox="0 0 60 68">
+                            <path d="M10 3h26l15 15v44a3 3 0 0 1-3 3H10a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3Z"/>
+                            <path d="M36 3v15h15M17 32h27M17 41h27M17 50h17"/>
+                            <path d="M17 22h8"/>
+                        </svg>
+                    </div>
+                    <div class="drop-copy">
+                        <p class="eyebrow">REPORT IMPORT / 16 MB MAX</p>
+                        <h2 class="drop-title">Bring your report into focus.</h2>
+                        <p class="drop-subtitle">Drop a file here, or browse from your device.<br>PDF, JPEG, PNG, WEBP, or BMP · up to 16 MB</p>
+                    </div>
+                    <button class="btn btn-primary" id="browseBtn" type="button">
+                        <i class="fa-solid fa-folder-open" aria-hidden="true"></i> Choose report
+                    </button>
+                    <span class="drop-corner" aria-hidden="true"></span>
+                </div>
+                <div class="file-preview-bar" id="filePreviewBar" style="display: none;">
+                    <div class="file-info">
+                        <i class="fa-solid fa-file-medical file-type-icon" id="fileTypeIcon" aria-hidden="true"></i>
+                        <div class="file-details">
+                            <span class="file-name" id="fileName">report.png</span>
+                            <span class="file-size" id="fileSize">1.2 MB</span>
+                        </div>
+                    </div>
+                    <div class="file-actions">
+                        <button class="btn btn-outline" id="removeFileBtn" type="button" title="Remove file" aria-label="Remove file">
+                            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn btn-primary" id="analyzeBtn" type="button">
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> Analyze report
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loading-state" id="loadingState" style="display: none;" role="status" aria-live="polite">
+                <div class="loading-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+                <p class="eyebrow">ANALYSIS IN PROGRESS</p>
+                <h3 class="loading-title" id="loadingStepTitle">Reading your medical report</h3>
+                <p class="loading-desc" id="loadingStepDesc">Extracting clinical metrics, analyzing ranges, and preparing a structured explanation.</p>
+                <div class="loading-steps">
+                    <div class="step-item active" id="step1"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Extract report data</div>
+                    <div class="step-item active" id="step2"><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Review the findings</div>
+                    <div class="step-item active" id="step3"><i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Prepare explanations</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-dashboard" id="resultsDashboard" style="display: none;" aria-label="Report analysis">
+            <div class="results-header-bar">
+                <div class="results-title-group">
+                    <p class="eyebrow">YOUR REPORT / CLINICAL OVERVIEW</p>
+                    <h2 class="section-title">Findings in context</h2>
+                    <span class="report-timestamp" id="reportGeneratedAt">Generated on: Oct 2, 2026</span>
+                </div>
+                <div class="results-action-buttons">
+                    <button class="btn btn-secondary" id="openChatBtn" type="button"><i class="fa-regular fa-message" aria-hidden="true"></i> Discuss this report</button>
+                    <button class="btn btn-outline" id="printReportBtn" type="button"><i class="fa-solid fa-print" aria-hidden="true"></i> Print / Download PDF</button>
+                    <button class="btn btn-primary" id="newReportBtn" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> New report</button>
+                </div>
+            </div>
+
+            <div class="patient-card">
+                <div class="patient-grid">
+                    <div class="patient-item"><span class="meta-label">PATIENT</span><span class="meta-value" id="patientName">--</span></div>
+                    <div class="patient-item"><span class="meta-label">AGE / GENDER</span><span class="meta-value" id="patientDemographics">--</span></div>
+                    <div class="patient-item"><span class="meta-label">REPORT DATE</span><span class="meta-value" id="reportDate">--</span></div>
+                    <div class="patient-item"><span class="meta-label">LABORATORY</span><span class="meta-value" id="labName">--</span></div>
+                </div>
+            </div>
+
+            <div class="summary-grid">
+                <article class="executive-summary-card">
+                    <div class="card-header">
+                        <div><p class="eyebrow">01 / SUMMARY</p><h3 class="card-title">What stands out</h3></div>
+                        <div class="risk-badge" id="riskBadge">Low Risk</div>
+                    </div>
+                    <p class="summary-paragraph" id="overallSummaryText">Your report summary will appear here.</p>
+                    <p class="summary-note"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Reference intervals are one part of interpretation; discuss results with your clinician.</p>
+                </article>
+
+                <article class="stats-card">
+                    <p class="eyebrow">02 / MEASUREMENTS</p>
+                    <h3 class="stats-title">Results at a glance</h3>
+                    <div class="stat-boxes">
+                        <div class="stat-box total"><span class="stat-num" id="totalTestsCount">0</span><span class="stat-label">Tests</span></div>
+                        <div class="stat-box normal"><span class="stat-num" id="normalTestsCount">0</span><span class="stat-label">In range</span></div>
+                        <div class="stat-box abnormal"><span class="stat-num" id="abnormalTestsCount">0</span><span class="stat-label">Out of range</span></div>
+                        <div class="stat-box critical"><span class="stat-num" id="criticalTestsCount">0</span><span class="stat-label">Critical</span></div>
+                    </div>
+                </article>
+            </div>
+
+            <section class="recommendations-section">
+                <div class="section-header-box">
+                    <p class="eyebrow">03 / NEXT CONVERSATION</p>
+                    <h3 class="section-title">Questions and guidance for your care team</h3>
+                    <p class="section-subtitle-text">AI-generated information to help you prepare for a conversation with a qualified clinician.</p>
+                </div>
+                <div class="recommendations-grid">
+                    <article class="rec-card diet-card"><div class="rec-card-header"><span class="rec-index">A</span><h4 class="rec-title">Diet &amp; nutrition</h4></div><ul class="rec-list" id="recDietList"></ul></article>
+                    <article class="rec-card doctor-card"><div class="rec-card-header"><span class="rec-index">B</span><h4 class="rec-title">Specialist consultation</h4></div><ul class="rec-list" id="recDoctorList"></ul></article>
+                    <article class="rec-card followup-card"><div class="rec-card-header"><span class="rec-index">C</span><h4 class="rec-title">Follow-up tests</h4></div><ul class="rec-list" id="recFollowupList"></ul></article>
+                    <article class="rec-card warning-card"><div class="rec-card-header"><span class="rec-index">D</span><h4 class="rec-title">Precautions &amp; red flags</h4></div><ul class="rec-list" id="recWarningList"></ul></article>
+                </div>
+            </section>
+
+            <section class="table-container-card">
+                <div class="table-header">
+                    <div class="table-title-group">
+                        <p class="eyebrow">04 / EXTRACTED VALUES</p>
+                        <h3 class="table-title">Structured laboratory results</h3>
+                        <p class="table-subtitle">Extracted measurements and reference intervals from this report.</p>
+                    </div>
+                    <div class="filter-tabs" role="group" aria-label="Filter test results">
+                        <button class="filter-tab active" type="button" data-filter="all">All <span id="tabAllCount">0</span></button>
+                        <button class="filter-tab" type="button" data-filter="abnormal">Out of range <span id="tabAbnormalCount">0</span></button>
+                        <button class="filter-tab" type="button" data-filter="normal">In range <span id="tabNormalCount">0</span></button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="medical-table" id="medicalTable">
+                        <thead><tr><th>Test</th><th>Measured value</th><th>Reference interval</th><th>Status</th><th>Explanation</th></tr></thead>
+                        <tbody id="testsTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="explanations-section">
+                <div class="section-header-box">
+                    <p class="eyebrow">05 / READING THE DETAILS</p>
+                    <h3 class="section-subtitle">Test-by-test explanations</h3>
+                </div>
+                <div class="explanations-accordion" id="explanationsAccordion"></div>
+            </section>
+
+            <section class="raw-text-card">
+                <button class="raw-text-toggle" id="rawTextToggle" type="button" aria-expanded="false" aria-controls="rawTextContent">
+                    <span><span class="eyebrow">SOURCE TEXT</span><strong>View extracted report text</strong></span>
+                    <i class="fa-solid fa-chevron-down toggle-arrow" aria-hidden="true"></i>
+                </button>
+                <div class="raw-text-content" id="rawTextContent" style="display: none;"><pre><code id="rawTextCode">No raw text extracted.</code></pre></div>
+            </section>
+
+            <aside class="disclaimer-banner">
+                <div class="disclaimer-icon"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></div>
+                <div class="disclaimer-text" id="disclaimerText"><strong>Medical disclaimer:</strong> This application is powered by artificial intelligence and is designed solely for informational, organizational, and educational purposes. It does not replace professional medical advice, clinical diagnosis, or personalized treatment planning by a certified healthcare professional.</div>
+            </aside>
+        </section>
+    </main>
+
+    <div class="chat-drawer-backdrop" id="chatBackdrop" style="display: none;"></div>
+    <aside class="chat-drawer" id="chatDrawer" style="display: none;" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Report discussion">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <span class="chat-avatar" aria-hidden="true"><i class="fa-regular fa-comments"></i></span>
+                <div><p class="eyebrow">REPORT DISCUSSION</p><h3 class="chat-title">Ask about your results</h3><span class="chat-subtitle"><span class="status-dot online"></span> Context-aware with your report</span></div>
+            </div>
+            <button class="chat-close-btn" id="closeChatBtn" type="button" title="Close chat" aria-label="Close chat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+        <div class="chat-chips-bar" aria-label="Suggested questions">
+            <button class="chat-chip" type="button" data-question="Mujhe in abnormal results ke liye kya diet leni chahiye?">Diet advice</button>
+            <button class="chat-chip" type="button" data-question="Which specialist doctor should I consult for this report?">Which doctor?</button>
+            <button class="chat-chip" type="button" data-question="Is there any urgent danger or red flag in my test results?">Any danger?</button>
+            <button class="chat-chip" type="button" data-question="Explain all out of range tests in simple words.">Explain simply</button>
+        </div>
+        <div class="chat-messages" id="chatMessages" aria-live="polite">
+            <div class="chat-bubble ai-bubble"><div class="bubble-avatar"><i class="fa-solid fa-user-doctor" aria-hidden="true"></i></div><div class="bubble-content"><p>Hello! I am your AI Medical Assistant. I have reviewed your lab test results. How can I help you understand your health report today?</p></div></div>
+        </div>
+        <div class="chat-input-bar">
+            <label class="sr-only" for="chatInput">Ask a question about your report</label>
+            <input type="text" id="chatInput" placeholder="Ask a question about this report…" autocomplete="off">
+            <button id="sendChatBtn" class="chat-send-btn" type="button" title="Send question" aria-label="Send question"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+        </div>
+    </aside>
+
+    <button class="floating-chat-trigger" id="floatingChatBtn" type="button" style="display: none;" title="Chat with AI about your report">
+        <i class="fa-regular fa-message" aria-hidden="true"></i><span class="trigger-label">Discuss report</span>
+    </button>
+
+    <footer class="footer"><div class="footer-container"><p>MedAssist AI <span>·</span> For understanding, not diagnosis.</p><p>Bring questions, not conclusions, to your clinician.</p></div></footer>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
