@@ -1,223 +1,148 @@
-# 🩺 MedAssist AI
-### Next-Gen AI-Powered Medical Lab Report Analyzer & Multi-Lingual Clinical Assistant
+# MedAssist AI
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-med--assist--lilac.vercel.app-00dfa2?style=for-the-badge&logo=vercel&logoColor=black)](https://med-assist-lilac.vercel.app/)
-[![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Flask Framework](https://img.shields.io/badge/Flask-3.0+-black?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
-[![Google Gemini Vision](https://img.shields.io/badge/Google%20Gemini-3.5%20%2F%203.8%20Flash-orange?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
-[![Deployment](https://img.shields.io/badge/Deploy-Vercel%20Serverless-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://med-assist-lilac.vercel.app/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+**Make a lab report easier to discuss with your clinician.**
 
-Translating complex laboratory diagnostic reports and scans into clear, actionable health insights with Multi-Lingual Support (English, Urdu, Roman Urdu), 4-tier personalized clinical recommendations, and context-aware interactive AI chat.
+MedAssist AI is a small Flask web application for exploring laboratory reports. It can organize report results into a readable dashboard, explain findings in plain language, and let you ask follow-up questions about a report.
 
-🌐 **Live Application:** [https://med-assist-lilac.vercel.app/](https://med-assist-lilac.vercel.app/)
+> **For information only.** AI-generated explanations can be inaccurate and are not a diagnosis or a substitute for care from a qualified healthcare professional. Discuss results and treatment decisions with your clinician.
 
-[Live Demo](https://med-assist-lilac.vercel.app/) • [Key Features](#-key-features) • [System Architecture](#-system-architecture) • [Tech Stack](#-tech-stack) • [Quick Start](#-quick-start--installation) • [Vercel Deployment](#-1-click-free-vercel-deployment) • [API Reference](#-api-reference) • [Project Structure](#-repository-structure) • [Disclaimer](#-medical-disclaimer)
+## What you can do
 
----
+- Try one of three built-in sample reports: CBC, lipid panel, or thyroid and liver.
+- Upload a PDF or an image (JPG, JPEG, PNG, WEBP, or BMP; up to 16 MB).
+- Review a generated summary, risk indicator, structured test values, and recommendations.
+- Ask follow-up questions about the analyzed report in the chat panel.
+- Choose English, Urdu, or Roman Urdu for AI responses.
+- Print the report view or save it as a PDF using your browser's print dialog.
+- Switch between light and dark themes.
 
-## 📌 Problem & Vision
+Report analysis and chat use the Google Gemini API. The dashboard and sample reports can load without an API key, but AI analysis and chat need one.
 
-Medical laboratory reports—such as Complete Blood Counts (CBC), Comprehensive Metabolic Panels (CMP), Lipid Profiles, and Liver/Thyroid Panels—are filled with medical jargon, abbreviations, and complex numeric ranges. Patients often struggle to interpret these critical markers, leading to unnecessary health anxiety or delayed doctor consultations.
+## Run it locally
 
-**MedAssist AI** bridges this clinical communication gap. By combining **Optical Character Recognition (OCR)**, **Multimodal Vision AI (Google Gemini 3.5 / 3.8 Flash)**, and **Clinical NLP**, it transforms raw PDF or image lab reports into structured tables, risk-scored summaries, tailored dietary/doctor recommendations, and multi-lingual conversational insights.
+### Requirements
 
----
+- Python 3.10 or newer
+- A Google Gemini API key for AI-powered analysis and chat
 
-## ✨ Key Features
+### 1. Get the project
 
-### 👁️ 1. Multimodal Document Ingestion
-* Upload scanned images (**JPEG, PNG, WEBP, BMP**) or multi-page digital **PDF** reports (up to 16 MB).
-* High-clarity contrast enhancement and noise reduction pipeline via Pillow buffers.
-
-### 🧪 2. Automated Clinical Structuring & Severity Categorization
-* Automatically extracts **Test Name**, **Measured Value**, **Unit**, and **Normal Reference Range**.
-* Dynamic Clinical Severity Badges:
-  * 🟢 **Normal**: Value resides safely within physiological reference limits.
-  * 🟡 **Abnormal**: Moderately elevated or depressed parameters.
-  * 🔴 **Critical**: Dangerously out-of-range metrics requiring urgent medical attention.
-
-### 🗣️ 3. Multi-Lingual Response Engine
-Choose your preferred response language with seamless UI and AI synthesis:
-* 🇬🇧 **English** (Standard Clinical Summary & Patient Explanations)
-* 🇵🇰 **اردو (Urdu Script)** (Complete Nastaliq typography support)
-* 🗣️ **Roman Urdu** (*"Aapka Hemoglobin 9.2 g/dL hai jo normal se kam hai, iska matlab hai aapko khoon ki kami (Anemia) ho sakti hai..."*)
-
-### 🩺 4. Personalized AI Health Recommendations
-Generates 4 tailored clinical advice categories based on identified abnormalities:
-* 🥗 **Dietary & Nutrition Advice**: Specific foods to include or avoid (e.g., iron-rich foods, low-glycemic diets).
-* 👨‍⚕️ **Specialist Consultations**: Guidance on which doctor (Hematologist, Cardiologist, Endocrinologist, etc.) to visit.
-* 📅 **Follow-up Timeline**: Recommended repeat testing intervals.
-* ⚠️ **Red Flags & Warning Signs**: Critical symptoms that require emergency medical care.
-
-### 💬 5. Interactive "Chat with your Report" AI Assistant
-* Ask specific questions directly to the AI Doctor Assistant.
-* Context-aware chatbot with full memory of your report metrics and chat history.
-* Built-in Markdown-to-HTML parser ensuring crisp typography (no raw asterisks, hash signs, or dashes).
-* Instant 1-click question chips (*"Diet Advice"*, *"Which Doctor?"*, *"Any Danger?"*, *"Explain Simply"*).
-
-### ⚡ 6. Instant 1-Click Sample Testing
-* Includes 3 built-in real-world lab cases for instant evaluation:
-  * **Anemia Panel (CBC)**
-  * **Lipid & Metabolic Panel**
-  * **Thyroid & Liver Function (LFT)**
-
-### 📄 7. Print-Ready & Downloadable PDF Summary
-* Formatted clinical summary report styled with dedicated `@media print` CSS for downloading as PDF or printing for doctor appointments.
-
----
-
-## 🏗️ System Architecture
-
-```mermaid
-flowchart TD
-    subgraph Client["1. Modern Web Frontend"]
-        A["User Upload: Image / PDF / Sample Report"] --> B["Language Selector: EN / UR / Roman Urdu"]
-    end
-
-    subgraph Backend["2. Flask Serverless Core (app.py)"]
-        B --> C{"File Type?"}
-        C -->|PDF| D["pypdf Text & Metadata Extraction"]
-        C -->|Image| E["Pillow Image Preprocessing & Optimization"]
-        D --> F["Prompt & Multi-Lingual Injection"]
-        E --> F
-    end
-
-    subgraph AI_Engine["3. Multimodal Reasoning (Google Gemini)"]
-        F --> G["Gemini 3.5 / 3.8 Flash Vision Engine"]
-        G --> H["Strict Structured JSON Response"]
-    end
-
-    subgraph Presentation["4. Dashboard & Interactive Services"]
-        H --> I["Structured Test Table & Severity Badges"]
-        H --> J["4-Tier Personalized Recommendation Cards"]
-        H --> K["Context-Aware Medical AI Chatbot (/api/chat)"]
-        H --> L["Downloadable / Printable Clinical PDF"]
-    end
+```bash
+git clone https://github.com/hitanshus-svg/Health-Assist.git
+cd Health-Assist
 ```
 
----
+### 2. Create and activate a virtual environment
 
-## 💻 Tech Stack
+**Windows PowerShell**
 
-| Component | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Backend Framework** | Python 3.11, Flask 3.0+ | Serverless web routing & REST API |
-| **AI / LLM Core** | Google Gemini 3.5 / 3.8 Flash | Multimodal Vision, OCR, & Clinical NLP |
-| **PDF Processing** | `pypdf` | Serverless-compatible digital PDF text extraction |
-| **Image Pipeline** | `Pillow` (PIL) | Contrast enhancement & dimensional optimization |
-| **Frontend** | Vanilla HTML5, Modern CSS3, JavaScript (ES6+) | Glassmorphic, responsive, dark/light UI |
-| **Icons & Typography** | FontAwesome 6, Plus Jakarta Sans, Noto Nastaliq Urdu | Clean medical aesthetic & typography |
-| **Edge & Static Delivery**| Vercel Edge CDN (`public/static/`) | High-speed global asset caching |
-| **Live Hosting** | Vercel Serverless Functions | [med-assist-lilac.vercel.app](https://med-assist-lilac.vercel.app/) |
-
----
-
-## 🚀 Quick Start & Installation
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/MuhammadAsad29/MedAssist.git
-cd MedAssist
-```
-
-### 2. Set Up Virtual Environment
-```bash
-# Windows
+```powershell
 python -m venv venv
-venv\Scripts\activate
+.\venv\Scripts\Activate.ps1
+```
 
-# macOS / Linux
+**macOS / Linux**
+
+```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Install Dependencies
+### 3. Install Python packages
+
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
-### 4. Configure Environment Variables
-Create a `.env` file in the root directory:
-```env
-GEMINI_API_KEY=YOUR_FREE_GEMINI_API_KEY
-```
-> 💡 *You can get a 100% free Gemini API Key in seconds from [Google AI Studio](https://aistudio.google.com/app/apikey) (No credit card required).*
+### 4. Configure Gemini
 
-### 5. Run the Application
+Copy the example environment file and add your key:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Open `.env` and set `GEMINI_API_KEY` to your key from [Google AI Studio](https://aistudio.google.com/app/apikey):
+
+```dotenv
+GEMINI_API_KEY=your_key_here
+```
+
+The application also accepts `GOOGLE_API_KEY`. Keep real keys in `.env` or your hosting provider's environment settings; never commit them to Git.
+
+### 5. Start the server
+
 ```bash
 python app.py
 ```
-Open your browser at **`http://127.0.0.1:5000`**.
 
----
+Open [http://127.0.0.1:5000](http://127.0.0.1:5000). The local server uses Flask's development mode; use a production WSGI server when hosting outside local development.
 
-## ☁️ 1-Click Free Vercel Deployment
+## Using the app
 
-The application is deployed live at: **[https://med-assist-lilac.vercel.app/](https://med-assist-lilac.vercel.app/)**
+1. Choose a sample case or select a report file.
+2. Select the response language.
+3. Start the analysis and review the summary and individual test results.
+4. Open the report chat to ask follow-up questions, or print the report view.
 
-To deploy your own instance:
+The sample data is illustrative. It is not real patient data and should not be used to make medical decisions.
 
-1. **Push your code to GitHub**:
-   ```bash
-   git add .
-   git commit -m "Deploy MedAssist AI to Vercel"
-   git push origin main
-   ```
-2. Open **[Vercel Dashboard](https://vercel.com/dashboard)** and click **"Add New Project"**.
-3. Import your **`MedAssist`** GitHub repository.
-4. Add your Environment Variable:
-   - **Key**: `GEMINI_API_KEY` (or `GOOGLE_API_KEY`)
-   - **Value**: `your_gemini_api_key`
-5. Click **Deploy** — your application will be live across global CDNs in under 30 seconds!
+## HTTP endpoints
 
-> 🔒 **Tip**: If your Vercel deployment asks for login on preview links, navigate to **Project Settings ➔ Deployment Protection** and disable **Vercel Authentication** to make your app publicly accessible.
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/` | Load the web application. |
+| `GET` | `/api/health` | Check service status and whether an API key is configured. |
+| `GET` | `/api/sample/<sample_id>` | Retrieve a sample report. IDs: `cbc`, `lipid`, `liver_thyroid`. |
+| `POST` | `/api/analyze` | Analyze JSON report text or an uploaded PDF/image. |
+| `POST` | `/api/chat` | Ask a question using report context and chat history. |
 
----
+For text analysis, send JSON to `/api/analyze`:
 
-## 🔌 API Reference
-
-| Endpoint | Method | Description |
-| :--- | :--- | :--- |
-| `/` | `GET` | Main Medical Dashboard UI |
-| `/api/analyze?lang={en\|ur\|roman_ur}` | `POST` | Upload Image/PDF or text payload for AI extraction & structuring |
-| `/api/chat` | `POST` | Interactive conversational query with report context |
-| `/api/sample/<sample_id>` | `GET` | Fetches sample lab report data (`cbc`, `lipid`, `liver_thyroid`) |
-| `/api/health` | `GET` | Health check endpoint returning AI engine and configuration status |
-
----
-
-## 📁 Repository Structure
-
+```json
+{
+  "text": "Paste report text here",
+  "language": "en"
+}
 ```
-MedAssist/
+
+For file analysis, send `multipart/form-data` with a `file` field and an optional `language` field. Supported language codes are `en`, `ur`, and `roman_ur`.
+
+For chat, send JSON to `/api/chat` with `message`, `report_context`, `chat_history`, and `language`. The frontend constructs this context from the current report.
+
+## Deploy on Vercel
+
+The repository includes a Vercel Python entry point (`api/index.py`) and routing configuration (`vercel.json`).
+
+1. Import this GitHub repository in the [Vercel dashboard](https://vercel.com/dashboard).
+2. Add `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) under the project's environment variables.
+3. Deploy the project, then check `/api/health` on the deployment to confirm the service is responding and the key is configured.
+
+Do not place API keys in frontend code, commit them, or expose them in public logs.
+
+## Project layout
+
+```text
+.
 ├── api/
-│   └── index.py            # Vercel serverless WSGI entrypoint
-├── public/                 # Edge CDN Static Delivery
-│   └── static/
-│       ├── css/style.css   # Responsive glassmorphic styles & dark mode
-│       └── js/app.js       # Client frontend engine & chat handler
+│   └── index.py                 # Vercel WSGI entry point
+├── public/static/               # Static assets for deployment
+├── static/
+│   ├── css/                     # Local stylesheets
+│   ├── js/app.js                # Browser interactions and API calls
+│   └── medassist-icon.svg       # Application icon
 ├── templates/
-│   └── index.html          # Main Clinical Dashboard UI
-├── static/                 # Local development assets
-│   ├── css/style.css
-│   └── js/app.js
-├── app.py                  # Core Flask backend, Gemini AI vision & chat logic
-├── check_models.py         # Utility script to test available Gemini models
-├── vercel.json             # Vercel routing & serverless build configuration
-├── requirements.txt        # Lightweight dependency manifest
-├── .env.example            # Environment variable template
-└── README.md               # Comprehensive documentation
+│   └── index.html               # Main application page
+├── app.py                       # Flask routes and Gemini integration
+├── requirements.txt             # Python dependencies
+├── vercel.json                  # Vercel build and routing configuration
+└── .env.example                 # Environment variable template
 ```
 
----
+## Data and privacy
 
-## ⚠️ Medical Disclaimer
+The application does not include a user account or database layer. When you request AI analysis or chat, report content and the supplied chat context are sent to the configured Gemini API. Review Google's applicable terms and data policies before using the service with sensitive information. Avoid uploading information you are not authorized to share.
 
-> **IMPORTANT**: **MedAssist AI** is an artificial intelligence-based informational and educational tool designed to assist in organizing and understanding lab test data. **It does not provide medical diagnoses, clinical treatment plans, or formal prescriptions.** Always consult a qualified, licensed medical physician or healthcare professional for clinical decision-making.
+## License
 
----
-
-## 📄 License
-
-Distributed under the **MIT License**. See `LICENSE` for more information.
+This project is distributed under the MIT License. See [LICENSE](LICENSE).
