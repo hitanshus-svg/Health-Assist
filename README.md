@@ -3,6 +3,7 @@
 **Make a lab report easier to discuss with your clinician.**
 
 MedAssist Link : https://health-assist-c18ep49dm-hitanshu4.vercel.app/
+
 Walkthrough : https://drive.google.com/file/d/1I9d3sNSY9S6BOAIA7ma6ao5vKq7O-MBf/view?usp=sharing 
 
 MedAssist AI is a small Flask web application for exploring laboratory reports. It can organize report results into a readable dashboard, explain findings in plain language, and let you ask follow-up questions about a report.
